@@ -526,12 +526,48 @@ function buildCard(item,src){const th=item.thumbnail||item.enclosure?.link||'';c
 function filterPress(btn,group){document.querySelectorAll('.press-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('#press-grid .press-card').forEach(c=>c.style.display=(group==='all'||c.dataset.sourceGroup===group)?'':'none');setLang(document.documentElement.lang||'pt');}
 /* ── PRESS — curated articles + live RSS fallback ─────────── */
 const PRESS_ARTICLES=[
-  {title:'Joana Balaguer estreia na cobertura do Oscar 2026 pela Jovem Pan',link:'https://jovempan.com.br',pubDate:'2026-03-10',source:'Jovem Pan',color:'#222',group:'jovempan'},
-  {title:'Joana Balaguer: "Voltei ao Brasil para recomeçar do zero"',link:'https://caras.com.br',pubDate:'2025-03-01',source:'Caras',color:'#c00',group:'caras'},
-  {title:'Mais ELAS: o podcast de Joana Balaguer conquista brasileiras',link:'https://quem.globo.com',pubDate:'2025-11-20',source:'Quem',color:'#8b0045',group:'quem'},
-  {title:'Joana Balaguer fala sobre maternidade, equilíbrio e nova fase',link:'https://caras.com.br',pubDate:'2025-09-05',source:'Caras',color:'#c00',group:'caras'},
-  {title:'Track & Field anuncia Joana Balaguer como embaixadora',link:'https://g1.globo.com',pubDate:'2025-07-12',source:'Globo',color:'#f26522',group:'globo'},
-  {title:'A apresentadora portuguesa que conquistou o Brasil',link:'https://g1.globo.com',pubDate:'2025-02-15',source:'Globo',color:'#f26522',group:'globo'},
+  {
+    title:'Aos 41 anos, ex-atriz da Globo celebra 15 anos do casamento pelo qual largou tudo no Brasil',
+    link:'https://caras.com.br/atualidades/aos-41-anos-ex-atriz-da-globo-celebra-15-anos-do-casamento-pelo-qual-largou-tudo-no-brasil.phtml',
+    pubDate:'2026-04-09',
+    thumb:'family-son.jpg',
+    source:'Caras',color:'#c00',group:'caras'
+  },
+  {
+    title:'Aos 41 anos, ex-atriz da Globo largou tudo no Brasil para viver história de amor na vida real',
+    link:'https://caras.com.br/atualidades/aos-41-anos-ex-atriz-da-globo-largou-tudo-no-brasil-para-viver-historia-de-amor-na-vida-real.phtml',
+    pubDate:'2026-02-11',
+    thumb:'family-warm.jpg',
+    source:'Caras',color:'#c00',group:'caras'
+  },
+  {
+    title:'Aos 41 anos, ex-atriz da Globo largou tudo por amor: "Todo mundo ficou chocado"',
+    link:'https://caras.com.br/tv/aos-41-anos-ex-atriz-da-globo-largou-tudo-por-amor-todo-mundo-ficou-chocado.phtml',
+    pubDate:'2026-02-13',
+    thumb:'portrait-bw.jpg',
+    source:'Caras',color:'#c00',group:'caras'
+  },
+  {
+    title:'Joana Balaguer se despede do pai em homenagem emocionante: "Cumpri meu papel"',
+    link:'https://caras.com.br/atualidades/joana-balaguer-se-despede-do-pai-em-homenagem-cumpri-meu-papel.phtml',
+    pubDate:'2025-03-01',
+    thumb:'family-black.jpg',
+    source:'Caras',color:'#c00',group:'caras'
+  },
+  {
+    title:'Joana Balaguer na cobertura do Oscar 2026 pela Jovem Pan News',
+    link:'https://www.youtube.com/live/WVCqGcCT5WA',
+    pubDate:'2026-03-15',
+    thumb:'portrait-shush.jpg',
+    source:'Jovem Pan',color:'#222',group:'jovempan'
+  },
+  {
+    title:'Track & Field anuncia Joana Balaguer como nova embaixadora da marca',
+    link:'https://www.instagram.com/joanabalaguer',
+    pubDate:'2025-07-12',
+    thumb:'hero-flowers-full.jpg',
+    source:'Moda',color:'#9B2335',group:'other'
+  },
 ];
 
 function detectSrc(url){
@@ -544,10 +580,12 @@ function filterPress(btn,group){document.querySelectorAll('.press-filter').forEa
 
 function buildCard(item,src){
   const s=src||{label:item.source||'',color:item.color||'#9B2335',group:item.group||'other'};
+  const thumb=item.thumb||item.thumbnail||'';
+  const thumbHtml=thumb
+    ?`<img src="${thumb}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top">`
+    :`<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0508,#3d1020);display:flex;align-items:center;justify-content:center"><span style="font-family:'Bodoni Moda',serif;font-size:1.4rem;color:rgba(255,255,255,.06);letter-spacing:.4em">PRESS</span></div>`;
   return`<a href="${item.link}" target="_blank" rel="noopener" class="press-card reveal" data-source-group="${s.group}">
-    <div class="press-thumb" style="background:linear-gradient(135deg,#1a0508 0%,#3d1020 100%);display:flex;align-items:center;justify-content:center;">
-      <span style="font-family:'Bodoni Moda',serif;font-size:1.6rem;color:rgba(255,255,255,.07);letter-spacing:.4em">PRESS</span>
-    </div>
+    <div class="press-thumb">${thumbHtml}</div>
     <div class="press-body">
       <div class="press-meta"><span class="press-source-badge" style="background:${s.color}">${s.label}</span><span class="press-date">${fmtDate(item.pubDate)}</span></div>
       <p class="press-headline">${item.title}</p>
